@@ -2,36 +2,60 @@ import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/co
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { loginDTO } from './DTO/loginDTO';
-import bcrypt from 'bcrypt';
+import * as bcrypt from 'bcrypt';
+import { registerDTO } from './DTO/registerDTO';
 
 @Injectable()
 export class AuthService {
 
-  constructor(
-    private usersService: UsersService,
-    private jwtService: JwtService
+    constructor(
+        private usersService: UsersService,
+        private jwtService: JwtService
     ) {}
 
-  async signIn(logindto: loginDTO): Promise<{accessToken:string}> {
+    async signIn(logindto: loginDTO): Promise<{accessToken:string}> {
 
-    const user = await this.usersService.findOne(logindto.email);
+        const user = await this.usersService.findOne(logindto.email);
 
-    if (!user) {
-      throw new NotFoundException('User not found');
-    }
+        if (!user) {
+        throw new NotFoundException('User not found');
+        }
 
-    const match = await bcrypt.compare(logindto.password, user.password);
+        const match = await bcrypt.compare(logindto.password, user.password);
 
-    if (!match) {
-      throw new UnauthorizedException('Invalid credentials');
-    }
+        if (!match) {
+        throw new UnauthorizedException('Invalid credentials');
+        }
 
-    const payload = { email: user.email };
+        const payload = { email: user.email };
 
-    return {
-      accessToken: await this.jwtService.signAsync(payload)
-    };
+        return {
+        accessToken: await this.jwtService.signAsync(payload)
+        };
    
-  }
-  
+    }
+
+
+    async signUp(registerdto: registerDTO) : Promise<void> {
+
+        const user = await this.usersService.findOne(registerdto.email);
+
+        if (user) {
+            throw new UnauthorizedException('User already exists');
+        }
+
+        const hashedPassword = bcrypt.hashSync(registerdto.password, 8);
+
+        const userCreated = await this.usersService.create({
+            email: registerdto.email,
+            password: hashedPassword,
+            name: registerdto.name
+        })
+
+        if (!userCreated) {
+            throw new UnauthorizedException('User not created');
+        }
+
+    }
+
 }

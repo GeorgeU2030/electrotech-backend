@@ -16,6 +16,7 @@ export class User {
   @Prop()
   @MinLength(7, { message: 'Password must be at least 7 characters' })
   password: string;
+  
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

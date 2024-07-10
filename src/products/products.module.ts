@@ -10,12 +10,7 @@ import { AuthGuard } from 'src/auth/auth.guard';
   imports: [
     MongooseModule.forFeature([{ name: 'Product', schema: ProductSchema }])
   ],
-  providers: [ProductsService, 
-    {
-      provide: APP_GUARD,
-      useClass: AuthGuard
-    }
-  ],
+  providers: [ProductsService],
   controllers: [ProductsController],
   exports: [ProductsService]
 })

@@ -15,7 +15,7 @@ export class UsersService {
         return this.userModel.findOne({ email });
     }
 
-    async create(user: registerDTO) {
+    async create(user: User) {
         return this.userModel.create(user);
     }
 }

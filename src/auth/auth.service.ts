@@ -49,7 +49,8 @@ export class AuthService {
         const userCreated = await this.usersService.create({
             email: registerdto.email,
             password: hashedPassword,
-            name: registerdto.name
+            name: registerdto.name,
+            role: 'user'
         })
 
         if (!userCreated) {

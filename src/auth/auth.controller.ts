@@ -1,4 +1,4 @@
-import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
+import { Body, Controller, Headers, Get, HttpCode, HttpStatus, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { loginDTO } from './DTO/loginDTO';
 import { registerDTO } from './DTO/registerDTO';
@@ -21,6 +21,12 @@ export class AuthController {
     @Post('register')
     signUp(@Body() registerDto: registerDTO) {
         return this.authService.signUp(registerDto);
+    }
+
+    @Public()
+    @Get("validate")
+    validateToken(@Headers('authorization') authorization: string){
+        return this.authService.isValidToken(authorization);
     }
 
 }

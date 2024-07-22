@@ -4,6 +4,7 @@ import { JwtService } from '@nestjs/jwt';
 import { loginDTO } from './DTO/loginDTO';
 import * as bcrypt from 'bcrypt';
 import { registerDTO } from './DTO/registerDTO';
+import { tokenDTO } from './DTO/tokenDTO';
 
 @Injectable()
 export class AuthService {
@@ -57,6 +58,40 @@ export class AuthService {
             throw new UnauthorizedException('User not created');
         }
 
+    }
+
+    async isValidToken(token: string): Promise<tokenDTO> {
+
+        try {
+          const decoded = await this.jwtService.verifyAsync(token);
+        
+          console.log(decoded)
+
+          const tokenDTO: tokenDTO = {
+            isValid: true,
+            expired: false
+          }
+
+          return tokenDTO;
+
+        } catch (error) {
+          if (error.name === 'TokenExpiredError') {
+
+            const tokenDTO: tokenDTO = {
+                isValid: false,
+                expired: true
+            }
+
+            return tokenDTO;
+          }
+
+          const tokenDTO: tokenDTO = {
+            isValid: false,
+            expired: false
+          }
+
+          return tokenDTO;
+        }
     }
 
 }

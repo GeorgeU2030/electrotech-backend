@@ -1,12 +1,11 @@
-import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { MinLength } from "class-validator";
-import { HydratedDocument } from "mongoose";
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { MinLength } from 'class-validator';
+import { HydratedDocument } from 'mongoose';
 
 export type UserDocument = HydratedDocument<User>;
 
 @Schema()
 export class User {
-
   @Prop()
   name: string;
 
@@ -19,7 +18,6 @@ export class User {
 
   @Prop()
   role: string;
-  
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

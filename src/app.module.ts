@@ -9,11 +9,12 @@ import { ProductsModule } from './products/products.module';
 import { AuthModule } from './auth/auth.module';
 
 @Module({
-  imports: [ConfigModule.forRoot(),
-            MongooseModule.forRoot(process.env.MONGO_URI),
-            AuthModule,
-            UsersModule,
-            ProductsModule,
+  imports: [
+    ConfigModule.forRoot(),
+    MongooseModule.forRoot(process.env.MONGO_URI),
+    AuthModule,
+    UsersModule,
+    ProductsModule,
   ],
   controllers: [AppController, ProductsController],
   providers: [AppService],

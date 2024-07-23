@@ -1,4 +1,4 @@
 export interface tokenDTO {
-    isValid: boolean;
-    expired: boolean;
+  isValid: boolean;
+  expired: boolean;
 }

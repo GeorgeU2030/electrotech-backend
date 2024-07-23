@@ -1,20 +1,19 @@
-import { IsUrl, IsOptional, IsNumber } from "class-validator";
+import { IsOptional, IsNumber } from 'class-validator';
 
 export class updateProductDTO {
+  @IsOptional()
+  name: string;
 
-    @IsOptional()
-    name: string;
+  @IsOptional()
+  brand: string;
 
-    @IsOptional()
-    brand: string;
+  @IsOptional()
+  @IsNumber()
+  price: number;
 
-    @IsOptional()
-    @IsNumber()
-    price: number;
+  @IsOptional()
+  description: string;
 
-    @IsOptional()
-    description: string;
-
-    @IsOptional()
-    image: string;
+  @IsOptional()
+  image: string;
 }

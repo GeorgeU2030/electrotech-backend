@@ -5,36 +5,34 @@ import { Product } from 'src/schemas/product.schema';
 
 @Injectable()
 export class ProductsService {
+  constructor(
+    @InjectModel(Product.name) private productModel: Model<Product>,
+  ) {}
 
-    constructor(
-        @InjectModel(Product.name) private productModel: Model<Product>
-    ) {}
+  async getProducts(): Promise<Product[]> {
+    const allProducts = await this.productModel.find().exec();
+    return allProducts;
+  }
 
-    async getProducts() : Promise<Product[]> {
-        const allProducts = await this.productModel.find().exec();
-        return allProducts;
+  async getProduct(id: string) {
+    const product = this.productModel.findById(id);
+
+    if (!product) {
+      return null;
     }
 
-    async getProduct(id: string) {
+    return product;
+  }
 
-        const product = this.productModel.findById(id);
+  async createProduct(product: Product) {
+    return this.productModel.create(product);
+  }
 
-        if (!product) {
-            return null;
-        }
+  async updateProduct(id: string, product: Product) {
+    return this.productModel.findByIdAndUpdate(id, product, { new: true });
+  }
 
-        return product;
-    }
-
-    async createProduct(product: Product) {
-        return this.productModel.create(product);
-    }
-
-    async updateProduct(id: string, product: Product) {
-        return this.productModel.findByIdAndUpdate(id, product, { new: true });
-    }
-
-    async deleteProduct(id: string) {
-        return this.productModel.findByIdAndDelete(id);
-    }
+  async deleteProduct(id: string) {
+    return this.productModel.findByIdAndDelete(id);
+  }
 }

@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, IsUrl } from 'class-validator';
+import { IsIn, IsNotEmpty, IsNumber, IsUrl } from 'class-validator';
 
 export class productDTO {
   @IsNotEmpty()
@@ -17,4 +17,8 @@ export class productDTO {
   @IsNotEmpty()
   @IsUrl({}, { message: 'Invalid URL' })
   image: string;
+
+  @IsNotEmpty()
+  @IsIn(['phones', 'computers', 'home', 'videogames'])
+  category: string;
 }

@@ -60,9 +60,7 @@ export class AuthService {
 
   async isValidToken(token: string): Promise<tokenDTO> {
     try {
-      const decoded = await this.jwtService.verifyAsync(token);
-
-      console.log(decoded);
+      await this.jwtService.verifyAsync(token);
 
       const tokenDTO: tokenDTO = {
         isValid: true,

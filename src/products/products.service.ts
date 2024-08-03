@@ -28,6 +28,10 @@ export class ProductsService {
     return this.productModel.create(product);
   }
 
+  async searchProduct(name: string) {
+    return this.productModel.find({ name: { $regex: name, $options: 'i' } });
+  }
+
   async updateProduct(id: string, product: Product) {
     return this.productModel.findByIdAndUpdate(id, product, { new: true });
   }

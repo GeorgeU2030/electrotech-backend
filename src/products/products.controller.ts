@@ -30,6 +30,12 @@ export class ProductsController {
     return this.productsService.getProduct(id);
   }
 
+  @Get('search/:name')
+  @Public()
+  async searchProduct(@Param('name') name: string) {
+    return this.productsService.searchProduct(name);
+  }
+
   @Post()
   @Roles(Role.Admin)
   async createProduct(@Body() productdto: productDTO) {
